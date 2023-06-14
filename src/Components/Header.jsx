@@ -9,7 +9,7 @@ import { FaYoutube, FaBehance, FaInstagram, FaLinkedin } from "react-icons/fa";
 function Header() {
   return (
     <div>
-      <Navbar expand="md px-5 p-4" className="font-poppins">
+      <Navbar expand="md px-5 p-4" className="font-poppins mt-3">
         <img src={logo} alt="Logo" className="logo mr-4"/>
         <Nav className="mr-auto" navbar>
           <NavItem className="px-5">
