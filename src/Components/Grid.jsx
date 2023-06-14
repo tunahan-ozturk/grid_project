@@ -65,11 +65,12 @@ const Grid = () => {
                     bsSize="sm"
                     id="search-input"
                     placeholder="Search Objects.."
+                    style={{ borderTopLeftRadius: '9999px', borderBottomLeftRadius: '9999px', width: '308px', height:'42px'}} // Input kısmının solunu yuvarlak yaptık
                     // value={searchValue}
                     // onChange={(e) => setSearchValue(e.target.value)}
                   />
                 </div>
-                <Button id="search-button" color="primary" size="sm">
+                <Button id="search-button" color="primary" size="sm" style={{width:'45px', height:'42px'}}>
                   <Search size={15} />
                 </Button>
               </div>
@@ -97,14 +98,14 @@ const Grid = () => {
               </div>
             </Col>
           </Row>
-          <div className="react-dataTable">
+          <div className="react-dataTable p-2 mx-5">
             <DataTable
               noHeader
               pagination
               paginationServer
               columns={columns}
               data={data}
-              className="react-dataTable"
+              className="react-dataTable grid-title"
             ></DataTable>
           </div>
         </Card>

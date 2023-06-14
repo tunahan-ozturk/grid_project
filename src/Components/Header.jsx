@@ -2,7 +2,7 @@ import React from "react";
 import logo from "./../assets/Images/logo.png";
 import { Navbar, Nav, NavItem } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
-import { FaYoutube, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { FaYoutube, FaBehance, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 
 // Navbar Sayfası
@@ -34,16 +34,16 @@ function Header() {
           </NavItem>
         </Nav>
         <div className="social-media">
-          <a href="#" className="mr-2 p-1">
+          <a href="https://www.youtube.com/channel/UC9zhWu89h4AqolHrVspLkVw" target="_blank" className="mr-2 p-1">
             <FaYoutube />
           </a>
-          <a href="#" className="mr-2 p-1">
+          <a href="https://www.instagram.com/mobilerast/" target="_blank" className="mr-2 p-1">
             <FaInstagram />
           </a>
-          <a href="#" className="mr-2 p-1">
-            <FaTwitter />
+          <a href="https://www.behance.net/rastmobile" target="_blank" className="mr-2 p-1">
+            <FaBehance />
           </a>
-          <a href="#" className="p-1">
+          <a href="https://www.linkedin.com/company/rastmobile/" target="_blank" className="p-1">
             <FaLinkedin />
           </a>
         </div>
