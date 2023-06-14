@@ -1,33 +1,51 @@
 import React from "react";
 import logo from "./../assets/Images/logo.png";
 import { Navbar, Nav, NavItem } from "reactstrap";
-import 'bootstrap/dist/css/bootstrap.css';
+import "bootstrap/dist/css/bootstrap.css";
+import { FaYoutube, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
+
 
 // Navbar Sayfası
 function Header() {
   return (
     <div>
-      <Navbar expand="md">  
-        <img src={logo} alt="Logo" />
+      <Navbar expand="md px-5 p-4" className="font-poppins">
+        <img src={logo} alt="Logo" className="logo mr-4"/>
         <Nav className="mr-auto" navbar>
-          <NavItem>
-            <a href="#" className="nav-link">Hakkımızda</a>
+          <NavItem className="px-5">
+            <a href="#" className="nav-link text-black">
+              Hakkımızda
+            </a>
           </NavItem>
-          <NavItem>
-            <a href="#" className="nav-link">Jüri-Yarışma Yazılımı</a>
+          <NavItem className="px-5">
+            <a href="#" className="nav-link text-black">
+              Jüri-Yarışma Yazılımı
+            </a>
           </NavItem>
-          <NavItem>
-            <a href="#" className="nav-link">Word Ninja</a>
+          <NavItem className="px-5">
+            <a href="#" className="nav-link text-black">
+              Word Ninja
+            </a>
           </NavItem>
-          <NavItem>
-            <a href="#" className="nav-link">Word Pyramids</a>
+          <NavItem className="px-5">
+            <a href="#" className="nav-link text-black">
+              Word Pyramids
+            </a>
           </NavItem>
         </Nav>
         <div className="social-media">
-          <a href="#"><i className="fa fa-facebook"></i></a>
-          <a href="#"><i className="fa fa-twitter"></i></a>
-          <a href="#"><i className="fa fa-instagram"></i></a>
-          <a href="#"><i className="fa fa-linkedin"></i></a>
+          <a href="#" className="mr-2 p-1">
+            <FaYoutube />
+          </a>
+          <a href="#" className="mr-2 p-1">
+            <FaInstagram />
+          </a>
+          <a href="#" className="mr-2 p-1">
+            <FaTwitter />
+          </a>
+          <a href="#" className="p-1">
+            <FaLinkedin />
+          </a>
         </div>
       </Navbar>
     </div>
