@@ -42,3 +42,9 @@ h1 {
   color: #FFFFFF;
   font-family: 'Poppins';
 }
+
+#filter-button :hover{
+  background:  #744BFC;
+  color: #FFFFFF;
+  transition: "background-color 0.3s, color 0.3s"
+}
