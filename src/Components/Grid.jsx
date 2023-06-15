@@ -60,7 +60,57 @@ const Grid = () => {
       name: "Hasan",
       describe: "hasan@gmail.com",
     },
+    {
+      link: 5,
+      name: "Emirhan",
+      describe: "emirhann@gmail.com",
+    },
+    {
+      link: 6,
+      name: "Turhan",
+      describe: "turhan@gmail.com",
+    },
+    {
+      link: 7,
+      name: "Hülya",
+      describe: "hülya@gmail.com",
+    },
+    {
+      link: 8,
+      name: "Talha",
+      describe: "talha@gmail.com",
+    },
+    {
+      link: 9,
+      name: "Kerem",
+      describe: "kerem@gmail.com",
+    },
+    {
+      link: 10,
+      name: "Mert",
+      describe: "mert@gmail.com",
+    },
+    {
+      link: 11,
+      name: "Yasin",
+      describe: "yasin@gmail.com",
+    },
+    {
+      link: 12,
+      name: "Faruk",
+      describe: "faruk@gmail.com",
+    },
   ];
+
+  const [records, setRecords] = useState(data); // Tabloya girecek veriler - rows
+
+  function handleFilter(event) { // Filtreleme ve arama kısmı
+    const newData = data.filter(row => {
+      return row.name.toLowerCase().includes(event.target.value.toLowerCase());
+    });
+    setRecords(newData);
+  }
+
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -85,6 +135,7 @@ const Grid = () => {
                 <div className="d-flex align-items-center">
                   <Label className="me-1" for="search-input"></Label>
                   <Input
+                    onChange={handleFilter}
                     className="dataTable-filter px-4"
                     type="text"
                     bsSize="sm"
@@ -101,6 +152,7 @@ const Grid = () => {
                   />
                 </div>
                 <Button
+                  onChange={handleFilter}
                   id="search-button" // Arama butonu
                   size="sm"
                   style={{
@@ -113,7 +165,7 @@ const Grid = () => {
                   <Search size={15} />
                 </Button>
 
-                <Button 
+                <Button
                   id="filter-button" // Filtreleme butonu
                   size="sm"
                   className="ms-2"
@@ -161,7 +213,7 @@ const Grid = () => {
               pagination
               paginationServer
               columns={columns}
-              data={data}
+              data={records}
               fixedHeader // Başlığın sabit kalması için.
               // selectableRows  // Seçme özelliği istersek aktifleştirebiliriz.
               className="react-dataTable grid-title"
