@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
 import DataTable from "react-data-table-component";
-import { Edit, Link, Check, X, Search, Plus} from "react-feather";
+import { Edit, Link, Check, X, Search, Plus } from "react-feather";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import {
@@ -50,18 +50,24 @@ const Grid = () => {
   return (
     <>
       <Fragment>
-        <Card className="mt-4 m-3" style={{
-          width: "1885px", height: "770px",
-          background: "linear-gradient(180deg, #EFF2FF -30.56%, rgba(232, 236, 255, 0) 135.85%)",
-          borderRadius: "6px"
-        }}>
+        <Card 
+          className="mt-4 m-3" // Ortadaki kutunun özellikleri
+          style={{
+            width: "1885px",
+            height: "770px",
+            background:
+              "linear-gradient(180deg, #EFF2FF -30.56%, rgba(232, 236, 255, 0) 135.85%)",
+            borderRadius: "6px",
+            boxShadow: "none",
+          }}
+        >
           <Row className="mx-4 px-5 mt-5">
             <Col sm="6">
-              <div className="d-flex align-items-end gap-1 ">
+              <div className="d-flex align-items-end">
                 <div className="d-flex align-items-center">
                   <Label className="me-1" for="search-input"></Label>
                   <Input
-                    className="dataTable-filter px-4"
+                    className="dataTable-filter px-4 "
                     type="text"
                     bsSize="sm"
                     id="search-input"
@@ -77,20 +83,33 @@ const Grid = () => {
                   />
                 </div>
                 <Button
-                  id="search-button"
-                  color="primary"
+                  id="search-button" // Arama butonu
                   size="sm"
-                  style={{ width: "45px", height: "42px" }}
+                  style={{
+                    borderTopRightRadius: "9999px",
+                    borderBottomRightRadius: "9999px",
+                    width: "45px",
+                    height: "42px",
+                  }}
                 >
                   <Search size={15} />
                 </Button>
+
                 <Button
-                  id="add-button"
-                  color="primary"
+                  id="add-button" // Hesap ekleme butonu
                   size="sm"
-                  style={{ width: "175px", height: "42px" }}
+                  className="ms-auto"
+                  style={{
+                    borderTopRightRadius: "9999px",
+                    borderBottomRightRadius: "9999px",
+                    borderBottomLeftRadius: "9999px",
+                    borderTopLeftRadius: "9999px",
+                    width: "175px",
+                    height: "42px",
+                  }}
                 >
                   <Plus size={15} />
+
                   <span>Yeni Hesap Ekle</span>
                 </Button>
               </div>
@@ -103,7 +122,7 @@ const Grid = () => {
               paginationServer
               columns={columns}
               data={data}
-              className="react-dataTable grid-title"
+              className="react-dataTable grid-title "
             ></DataTable>
           </div>
           <Col

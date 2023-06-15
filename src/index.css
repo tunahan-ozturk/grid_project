@@ -36,3 +36,9 @@ h1 {
   line-height: 1.1;
 }
 
+#search-button,
+#add-button {
+  background-color: #744BFC; /* Butonlara renk verme kodu */
+  color: #FFFFFF;
+  font-family: 'Poppins';
+}
