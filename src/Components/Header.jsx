@@ -32,7 +32,7 @@ function Header() {
             </a>
           </NavItem>
         </Nav>
-        <div className="social-media">
+        <div className="social-media"> 
           <a
             href="https://www.youtube.com/channel/UC9zhWu89h4AqolHrVspLkVw"
             target="_blank"

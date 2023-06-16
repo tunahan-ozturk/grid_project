@@ -1,6 +1,7 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { Edit, Link, Check, X, Search, Plus, Filter } from "react-feather";
+import ReactPaginate from "react-paginate";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import {
@@ -28,17 +29,27 @@ const Grid = () => {
       name: "Sosyal Medya Linki",
       selector: (row) => row.link,
       sortColumn: name,
-      width: "10%",
+      width: "33%",
       sortable: true, // Sıralama özelliği
+      style: {
+        textAlign: "center",
+        color: "#000000",
+      },
     },
     {
       name: "Sosyal Medya Adı",
       selector: (row) => row.name,
       sortable: true, // Sıralama
+      style: {
+        textAlign: "center",
+      },
     },
     {
       name: "Açıklama",
       selector: (row) => row.describe,
+      style: {
+        textAlign: "center",
+      },
     },
   ];
 
@@ -51,34 +62,28 @@ const Grid = () => {
   const data = [
     // Tabloya girecek veriler - rows
     {
-      link: 1,
-      name: "Tunahan",
-      describe: "tunahan@gmail.com",
+      link: "instagram.com/mobilerast/",
+      name: "instagram",
+      describe:
+        "We'll help you to finish your development project successfully.",
     },
     {
-      link: 2,
-      name: "Zehra",
-      describe: "zehra@gmail.com",
+      link: "tr.linkedin.com/company/rastmobile",
+      name: "linkedin",
+      describe:
+        "Hire vetted developers from Rast Mobile to scale up your tech projects.",
     },
     {
-      link: 3,
-      name: "Eren",
-      describe: "eren@gmail.com",
+      link: "behance.net/rastmobile",
+      name: "behance",
+      describe:
+        "Software Development Agency Rast Mobile Information Technology Ltd.",
     },
     {
-      link: 4,
-      name: "Hasan",
-      describe: "hasan@gmail.com",
-    },
-    {
-      link: 5,
-      name: "Emirhan",
-      describe: "emirhann@gmail.com",
-    },
-    {
-      link: 6,
-      name: "Turhan",
-      describe: "turhan@gmail.com",
+      link: "twitter.com/rastmobile",
+      name: "twitter",
+      describe:
+        "Software Development Agency Rast Mobilke Information Technology Ltd.",
     },
   ];
 
@@ -88,10 +93,15 @@ const Grid = () => {
 
   function handleFilter(event) {
     // Filtreleme ve arama kısmı
-    const newData = data.filter((row) => {
-      return row.name.toLowerCase().includes(event.target.value.toLowerCase());
-    });
-    setRecords(newData);
+    const searchTerm = event.target.value.toLowerCase();
+    const storedRecords = localStorage.getItem("records");
+    if (storedRecords) {
+      const parsedRecords = JSON.parse(storedRecords);
+      const filteredRecords = parsedRecords.filter((row) => {
+        return row.name.toLowerCase().includes(searchTerm);
+      });
+      setRecords(filteredRecords);
+    }
   }
 
   const handleFormInputChange = (event) => {
@@ -103,10 +113,12 @@ const Grid = () => {
   };
 
   const handleFormSubmit = () => {
+    const updatedRecords = [...records, formData];
     // Modal kısmındaki verilerin kaydedilmesi
     setRecords([...records, formData]);
     setFormData(initialFormData);
     setModalOpen(false);
+    localStorage.setItem("records", JSON.stringify(updatedRecords));
   };
 
   const toggleModal = () => {
@@ -114,9 +126,32 @@ const Grid = () => {
     setModalOpen(!modalOpen);
   };
 
-  const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  useEffect(() => {
+    // Local Storage'da kaydedilmiş verileri alıp kontrol ediyoruz
+    const storedRecords = localStorage.getItem("records");
+    if (storedRecords) {
+      const parsedRecords = JSON.parse(storedRecords);
+      setRecords(parsedRecords);
+    }
+
+    setLoading(false);
+  }, []);
+
+  console.log(records);
+
+  const handlePerPage = (e) => {
+    const value = parseInt(e.currentTarget.value);
+    setPostData({
+      ...postData,
+      resultsPerPage: value,
+      page: 1,
+    });
+    setRowsPerPage(value);
+  };
+
+  const [loading, setLoading] = useState(true); // Loading kısmı
+  const [currentPage, setCurrentPage] = useState(1); // Sayfa numarası
+  const [rowsPerPage, setRowsPerPage] = useState(5); // Sayfadaki satır sayısı
 
   return (
     <>
@@ -320,9 +355,11 @@ const Grid = () => {
               </div>
             </Col>
           </Row>
+
           <div className="react-dataTable p-2 mx-5 px-5 pt-3">
             <DataTable
               noHeader
+              noDataComponent={<p>Sonuç bulunamadı.</p>}
               pagination
               paginationServer
               columns={columns}
@@ -351,8 +388,10 @@ const Grid = () => {
                   height: "37px",
                   borderRadius: "15px",
                   background: "#FFFFFF",
-                  border: "1px solid #CFC0FF",
-                  borderRadius: "39px",
+                  container: {
+                    border: "1px solid #CFC0FF",
+                    borderRadius: "39px",
+                  },
                   textAlign: "center",
                   color: "#000000",
                   padding: "2px",
