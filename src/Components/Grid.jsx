@@ -15,6 +15,10 @@ import {
   Col,
   UncontrolledTooltip,
   Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from "reactstrap";
 
 const Grid = () => {
@@ -37,6 +41,12 @@ const Grid = () => {
       selector: (row) => row.describe,
     },
   ];
+
+  const initialFormData = {
+    link: "",
+    name: "",
+    describe: "",
+  };
 
   const data = [
     // Tabloya girecek veriler - rows
@@ -70,46 +80,39 @@ const Grid = () => {
       name: "Turhan",
       describe: "turhan@gmail.com",
     },
-    {
-      link: 7,
-      name: "Hülya",
-      describe: "hülya@gmail.com",
-    },
-    {
-      link: 8,
-      name: "Talha",
-      describe: "talha@gmail.com",
-    },
-    {
-      link: 9,
-      name: "Kerem",
-      describe: "kerem@gmail.com",
-    },
-    {
-      link: 10,
-      name: "Mert",
-      describe: "mert@gmail.com",
-    },
-    {
-      link: 11,
-      name: "Yasin",
-      describe: "yasin@gmail.com",
-    },
-    {
-      link: 12,
-      name: "Faruk",
-      describe: "faruk@gmail.com",
-    },
   ];
 
   const [records, setRecords] = useState(data); // Tabloya girecek veriler - rows
+  const [formData, setFormData] = useState(initialFormData); // Modal kısmındaki veriler
+  const [modalOpen, setModalOpen] = useState(false); // Modal kısmının açılması. Kapalı olduğu için false
 
-  function handleFilter(event) { // Filtreleme ve arama kısmı
-    const newData = data.filter(row => {
+  function handleFilter(event) {
+    // Filtreleme ve arama kısmı
+    const newData = data.filter((row) => {
       return row.name.toLowerCase().includes(event.target.value.toLowerCase());
     });
     setRecords(newData);
   }
+
+  const handleFormInputChange = (event) => {
+    // Modal kısmındaki verilerin değişmesi
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleFormSubmit = () => {
+    // Modal kısmındaki verilerin kaydedilmesi
+    setRecords([...records, formData]);
+    setFormData(initialFormData);
+    setModalOpen(false);
+  };
+
+  const toggleModal = () => {
+    // Modal kısmının açılması
+    setModalOpen(!modalOpen);
+  };
 
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -190,6 +193,7 @@ const Grid = () => {
                   id="add-button" // Hesap ekleme butonu
                   size="sm"
                   className="ms-auto"
+                  onClick={toggleModal}
                   style={{
                     marginRight: "-865px",
                     borderTopRightRadius: "9999px",
@@ -201,9 +205,118 @@ const Grid = () => {
                   }}
                 >
                   <Plus size={15} />
-
                   <span>Yeni Hesap Ekle</span>
                 </Button>
+                <Modal isOpen={modalOpen} toggle={toggleModal}>
+                  <ModalBody
+                    style={{
+                      width: "488px",
+                      height: "406px",
+                      borderRadius: "13px",
+                      background: "#FFFFFF",
+                    }}
+                    className="ms-auto pt-5 px-4"
+                  >
+                    <Label
+                      style={{
+                        color: "#06163A",
+                        lineHeight: "20px",
+                        fontStyle: "normal",
+                      }}
+                    >
+                      Sosyal Medya Linki
+                    </Label>
+                    <Input
+                      type="text"
+                      name="link"
+                      value={formData.link}
+                      onChange={handleFormInputChange}
+                      style={{
+                        boxSizing: "border-box",
+                        width: "424px",
+                        height: "40px",
+                        border: "1px solid #D9D9D9",
+                        borderRadius: "38px",
+                      }}
+                      className="mb-4"
+                    />
+                    <Label
+                      style={{
+                        color: "#06163A",
+                        lineHeight: "20px",
+                        fontStyle: "normal",
+                      }}
+                    >
+                      Sosyal Medya Adı
+                    </Label>
+                    <Input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleFormInputChange}
+                      style={{
+                        boxSizing: "border-box",
+                        width: "424px",
+                        height: "40px",
+                        border: "1px solid #D9D9D9",
+                        borderRadius: "38px",
+                      }}
+                      className="mb-4"
+                    />
+                    <Label
+                      style={{
+                        color: "#06163A",
+                        lineHeight: "20px",
+                        fontStyle: "normal",
+                      }}
+                    >
+                      Açıklama
+                    </Label>
+                    <Input
+                      type="text"
+                      name="describe"
+                      value={formData.describe}
+                      onChange={handleFormInputChange}
+                      style={{
+                        boxSizing: "border-box",
+                        width: "424px",
+                        height: "40px",
+                        border: "1px solid #D9D9D9",
+                        borderRadius: "38px",
+                      }}
+                    />
+                  </ModalBody>
+                  <ModalFooter className="px-4">
+                    <Button
+                      color="secondary"
+                      onClick={toggleModal}
+                      style={{
+                        color: "#744BFC",
+                        background: "#F5F7FF",
+                        borderRadius: "34px",
+                        marginRight: "16px",
+                        boxShadow: "none",
+                        border: "none",
+                      }}
+                    >
+                      Vazgeç
+                    </Button>{" "}
+                    <Button
+                      color="primary"
+                      onClick={handleFormSubmit}
+                      style={{
+                        color: "#FFFFFF",
+                        background: "#744BFC",
+                        borderRadius: "34px",
+                        marginRight: "5px",
+                        boxShadow: "none",
+                        border: "none",
+                      }}
+                    >
+                      Kaydet
+                    </Button>
+                  </ModalFooter>
+                </Modal>
               </div>
             </Col>
           </Row>
