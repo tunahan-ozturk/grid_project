@@ -140,18 +140,58 @@ const Grid = () => {
   console.log(records);
 
   const handlePerPage = (e) => {
-    const value = parseInt(e.currentTarget.value);
-    setPostData({
-      ...postData,
-      resultsPerPage: value,
-      page: 1,
-    });
+    const value = parseInt(e.target.value);
     setRowsPerPage(value);
+    setCurrentPage(1);
+    // setCurrentPage(1)
+  };
+
+  const dataToRender = () => {
+    const lastIndex = currentPage * rowsPerPage;
+    const firstIndex = lastIndex - rowsPerPage;
+    const currentRows = records.slice(firstIndex, lastIndex);
+    return currentRows;
+  };
+
+  const handlePagination = (page) => {
+    setCurrentPage(page.selected + 1);
+  };
+
+  const CustomPagination = () => {
+    return (
+      <ReactPaginate
+        previousLabel={<ChevronLeft size={15} />}
+        nextLabel={<ChevronRight size={15} />}
+        breakLabel={"..."}
+        breakClassName={"break-me"}
+        pageCount={Math.ceil(records.length / rowsPerPage - 1)}
+        containerClassName={
+          "vx-pagination separated-pagination pagination-end pagination-sm mb-0 mt-2"
+        }
+        activeClassName={"active"}
+        forcePage={currentPage !== 0 ? currentPage - 1 : currentPage}
+        onPageChange={(page) => handlePagination(page)}
+        pageClassName={"page-item"}
+        nextLinkClassName={"page-link"}
+        nextClassName={"page-item next"}
+        previousClassName={"page-item prev"}
+        previousLinkClassName={"page-link"}
+        pageLinkClassName={"page-link"}
+      />
+    );
   };
 
   const [loading, setLoading] = useState(true); // Loading kısmı
   const [currentPage, setCurrentPage] = useState(1); // Sayfa numarası
-  const [rowsPerPage, setRowsPerPage] = useState(5); // Sayfadaki satır sayısı
+  const [rowsPerPage, setRowsPerPage] = useState(4); // Sayfadaki satır sayısı
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const paginatedData = records.slice(
+    (currentPage - 1) * rowsPerPage,
+    currentPage * rowsPerPage
+  );
 
   return (
     <>
@@ -356,19 +396,28 @@ const Grid = () => {
             </Col>
           </Row>
 
-          <div className="react-dataTable p-2 mx-5 px-5 pt-3">
+          <div
+            className="react-dataTable p-2 mx-5 px-5 pt-3"
+            style={{ overflowX: "auto" }}
+          >
             <DataTable
               noHeader
-              noDataComponent={<p>Sonuç bulunamadı.</p>}
               pagination
               paginationServer
               columns={columns}
-              data={records}
+              responsive
+              data={dataToRender()}
+              paginationPerPage={rowsPerPage}
+              onChangePerPage={rowsPerPage}
+              paginationRowsPerPageOptions={[5, 10, 25, 50]}
+              paginationTotalRows={data.length}
+              // Toplam veri sayısı
               fixedHeader // Başlığın sabit kalması için.
               // selectableRows  // Seçme özelliği istersek aktifleştirebiliriz.
               className="react-dataTable grid-title"
-            ></DataTable>
+            />
           </div>
+
           <Col
             className="d-flex align-items-center justify-content-sm-end mt-sm-0"
             style={{
@@ -399,9 +448,9 @@ const Grid = () => {
                 type="select"
                 id="sort-select"
                 value={rowsPerPage}
-                onChange={(e) => handlePerPage(e)}
+                onChange={handlePerPage}
               >
-                <option value={10}>10</option>
+                <option value={4}>4</option>
                 <option value={25}>25</option>
                 <option value={50}>50</option>
                 <option value={75}>75</option>
