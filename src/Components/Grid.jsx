@@ -1,6 +1,16 @@
 import { Fragment, useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import { Edit, Link, Check, X, Search, Plus, Filter } from "react-feather";
+import {
+  Edit,
+  Link,
+  Check,
+  X,
+  Search,
+  Plus,
+  Filter,
+  ChevronDown,
+  ChevronUp,
+} from "react-feather";
 import ReactPaginate from "react-paginate";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -27,28 +37,46 @@ const Grid = () => {
   const columns = [
     {
       name: "Sosyal Medya Linki",
-      selector: (row) => row.link,
+      selector: (row) => row.link, // Tablodaki verileri çekiyoruz
       sortColumn: name,
-      width: "33%",
+      width: "35%",
       sortable: true, // Sıralama özelliği
       style: {
         textAlign: "center",
         color: "#000000",
+        fontFamily: "Inter",
+        fontStyle: "normal",
+        fontWeight: "400",
+        color: "#000000",
+        borderRight: "1px solid #C4CEE5",
+        paddingLeft: "35px",
       },
     },
     {
       name: "Sosyal Medya Adı",
-      selector: (row) => row.name,
+      selector: (row) => row.name, // Tablodaki verileri çekiyoruz
+      width: "30%",
       sortable: true, // Sıralama
       style: {
         textAlign: "center",
+        fontFamily: "Inter",
+        fontStyle: "normal",
+        fontWeight: "400",
+        color: "#000000",
+        borderRight: "1px solid #C4CEE5",
+        paddingLeft: "35px",
       },
     },
     {
       name: "Açıklama",
-      selector: (row) => row.describe,
+      selector: (row) => row.describe, // Tablodaki verileri çekiyoruz
       style: {
         textAlign: "center",
+        fontFamily: "Inter",
+        fontStyle: "normal",
+        fontWeight: "400",
+        color: "#000000",
+        paddingLeft: "35px",
       },
     },
   ];
@@ -86,6 +114,15 @@ const Grid = () => {
         "Software Development Agency Rast Mobilke Information Technology Ltd.",
     },
   ];
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth); // Sayfa genişliği
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const [records, setRecords] = useState(data); // Tabloya girecek veriler - rows
   const [formData, setFormData] = useState(initialFormData); // Modal kısmındaki veriler
@@ -137,7 +174,7 @@ const Grid = () => {
     setLoading(false);
   }, []);
 
-  console.log(records);
+  console.log(records); // Verileri konsola yazdırıyoruz. LocalStorage'da depolandığını görebilmek için
 
   const handlePerPage = (e) => {
     const value = parseInt(e.target.value);
@@ -147,6 +184,7 @@ const Grid = () => {
   };
 
   const dataToRender = () => {
+    // Tabloya girecek veriler - rows
     const lastIndex = currentPage * rowsPerPage;
     const firstIndex = lastIndex - rowsPerPage;
     const currentRows = records.slice(firstIndex, lastIndex);
@@ -154,10 +192,12 @@ const Grid = () => {
   };
 
   const handlePagination = (page) => {
+    // Sayfalama
     setCurrentPage(page.selected + 1);
   };
 
   const CustomPagination = () => {
+    // Sayfalama
     return (
       <ReactPaginate
         previousLabel={<ChevronLeft size={15} />}
@@ -183,12 +223,14 @@ const Grid = () => {
 
   const [loading, setLoading] = useState(true); // Loading kısmı
   const [currentPage, setCurrentPage] = useState(1); // Sayfa numarası
-  const [rowsPerPage, setRowsPerPage] = useState(4); // Sayfadaki satır sayısı
+  const [rowsPerPage, setRowsPerPage] = useState(10); // Sayfadaki satır sayısı
   const handlePageChange = (page) => {
+    // Sayfa değişimi
     setCurrentPage(page);
   };
 
   const paginatedData = records.slice(
+    // Sayfalama
     (currentPage - 1) * rowsPerPage,
     currentPage * rowsPerPage
   );
@@ -197,6 +239,7 @@ const Grid = () => {
     <>
       <Fragment>
         <Card
+          responsive
           className="mt-4 m-3" // Ortadaki kutunun özellikleri
           style={{
             width: "1885px",
@@ -213,6 +256,7 @@ const Grid = () => {
                 <div className="d-flex align-items-center">
                   <Label className="me-1" for="search-input"></Label>
                   <Input
+                    responsive
                     onChange={handleFilter}
                     className="dataTable-filter px-4"
                     type="text"
@@ -230,6 +274,7 @@ const Grid = () => {
                   />
                 </div>
                 <Button
+                  responsive
                   onChange={handleFilter}
                   id="search-button" // Arama butonu
                   size="sm"
@@ -244,6 +289,7 @@ const Grid = () => {
                 </Button>
 
                 <Button
+                  responsive
                   id="filter-button" // Filtreleme butonu
                   size="sm"
                   className="ms-2"
@@ -265,6 +311,7 @@ const Grid = () => {
                 </Button>
 
                 <Button
+                  responsive
                   id="add-button" // Hesap ekleme butonu
                   size="sm"
                   className="ms-auto"
@@ -284,6 +331,7 @@ const Grid = () => {
                 </Button>
                 <Modal isOpen={modalOpen} toggle={toggleModal}>
                   <ModalBody
+                    responsive
                     style={{
                       width: "488px",
                       height: "406px",
@@ -293,6 +341,7 @@ const Grid = () => {
                     className="ms-auto pt-5 px-4"
                   >
                     <Label
+                      responsive
                       style={{
                         color: "#06163A",
                         lineHeight: "20px",
@@ -302,6 +351,7 @@ const Grid = () => {
                       Sosyal Medya Linki
                     </Label>
                     <Input
+                      responsive
                       type="text"
                       name="link"
                       value={formData.link}
@@ -316,6 +366,7 @@ const Grid = () => {
                       className="mb-4"
                     />
                     <Label
+                      responsive
                       style={{
                         color: "#06163A",
                         lineHeight: "20px",
@@ -325,6 +376,7 @@ const Grid = () => {
                       Sosyal Medya Adı
                     </Label>
                     <Input
+                      responsive
                       type="text"
                       name="name"
                       value={formData.name}
@@ -339,6 +391,7 @@ const Grid = () => {
                       className="mb-4"
                     />
                     <Label
+                      responsive
                       style={{
                         color: "#06163A",
                         lineHeight: "20px",
@@ -348,6 +401,7 @@ const Grid = () => {
                       Açıklama
                     </Label>
                     <Input
+                      responsive
                       type="text"
                       name="describe"
                       value={formData.describe}
@@ -363,6 +417,7 @@ const Grid = () => {
                   </ModalBody>
                   <ModalFooter className="px-4">
                     <Button
+                      responsive
                       color="secondary"
                       onClick={toggleModal}
                       style={{
@@ -377,6 +432,7 @@ const Grid = () => {
                       Vazgeç
                     </Button>{" "}
                     <Button
+                      responsive
                       color="primary"
                       onClick={handleFormSubmit}
                       style={{
@@ -398,15 +454,31 @@ const Grid = () => {
 
           <div
             className="react-dataTable p-2 mx-5 px-5 pt-3"
-            style={{ overflowX: "auto" }}
+            style={{ overflowX: "auto", borderRadius: "8px" }}
           >
             <DataTable
+              className="react-dataTable grid-title"
+              customStyles={{
+                // Tablo tasarımı
+                headCells: {
+                  // Başlık hücreleri
+                  style: {
+                    borderRight: "1px solid #C4CEE5",
+                    borderBottom: "0.99965px solid #C4CEE5",
+                    paddingLeft: "35px",
+                    color: "#000000",
+                    fontFamily: "Poppins",
+                    fontWeight: "600",
+                  },
+                },
+              }}
               noHeader
               pagination
               paginationServer
               columns={columns}
               responsive
               data={dataToRender()}
+              progressPending={loading}
               paginationPerPage={rowsPerPage}
               onChangePerPage={rowsPerPage}
               paginationRowsPerPageOptions={[5, 10, 25, 50]}
@@ -414,11 +486,11 @@ const Grid = () => {
               // Toplam veri sayısı
               fixedHeader // Başlığın sabit kalması için.
               // selectableRows  // Seçme özelliği istersek aktifleştirebiliriz.
-              className="react-dataTable grid-title"
             />
           </div>
 
           <Col
+            responsive
             className="d-flex align-items-center justify-content-sm-end mt-sm-0"
             style={{
               marginLeft: "-70px",
@@ -431,6 +503,7 @@ const Grid = () => {
                 Show
               </Label>
               <Input
+                responsive
                 className="dataTable-select m-2"
                 style={{
                   width: "90px",
