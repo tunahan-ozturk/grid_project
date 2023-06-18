@@ -120,7 +120,7 @@ const Grid = () => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize); 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -132,7 +132,7 @@ const Grid = () => {
     // Filtreleme ve arama kısmı
     const searchTerm = event.target.value.toLowerCase();
     const storedRecords = localStorage.getItem("records");
-    if (storedRecords) {
+    if (storedRecords) { // Local Storage'da kaydedilmiş veriler
       const parsedRecords = JSON.parse(storedRecords);
       const filteredRecords = parsedRecords.filter((row) => {
         return row.name.toLowerCase().includes(searchTerm);
@@ -185,9 +185,9 @@ const Grid = () => {
 
   const dataToRender = () => {
     // Tabloya girecek veriler - rows
-    const lastIndex = currentPage * rowsPerPage;
+    const lastIndex = currentPage * rowsPerPage; 
     const firstIndex = lastIndex - rowsPerPage;
-    const currentRows = records.slice(firstIndex, lastIndex);
+    const currentRows = records.slice(firstIndex, lastIndex); 
     return currentRows;
   };
 
@@ -223,7 +223,7 @@ const Grid = () => {
 
   const [loading, setLoading] = useState(true); // Loading kısmı
   const [currentPage, setCurrentPage] = useState(1); // Sayfa numarası
-  const [rowsPerPage, setRowsPerPage] = useState(10); // Sayfadaki satır sayısı
+  const [rowsPerPage, setRowsPerPage] = useState(4); // Sayfadaki başlangıçtaki satır sayısı
   const handlePageChange = (page) => {
     // Sayfa değişimi
     setCurrentPage(page);
@@ -473,10 +473,10 @@ const Grid = () => {
                 },
               }}
               noHeader
-              pagination
-              paginationServer
-              columns={columns}
-              responsive
+              pagination // Sayfalama özelliği aktifleştirme
+              paginationServer // Sayfalama özelliğini sunucu taraflı yapma
+              columns={columns} // Sütunları belirleme
+              responsive // Mobil uyumlu
               data={dataToRender()}
               progressPending={loading}
               paginationPerPage={rowsPerPage}
