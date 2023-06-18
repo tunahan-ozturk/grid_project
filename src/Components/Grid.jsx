@@ -120,7 +120,7 @@ const Grid = () => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize); 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -132,8 +132,7 @@ const Grid = () => {
     // Filtreleme ve arama kısmı
     const searchTerm = event.target.value.toLowerCase();
     const storedRecords = localStorage.getItem("records");
-    if (storedRecords) {
-      // Local Storage'da kaydedilmiş veriler
+    if (storedRecords) { // Local Storage'da kaydedilmiş veriler
       const parsedRecords = JSON.parse(storedRecords);
       const filteredRecords = parsedRecords.filter((row) => {
         return row.name.toLowerCase().includes(searchTerm);
@@ -177,40 +176,41 @@ const Grid = () => {
 
   console.log(records); // Verileri konsola yazdırıyoruz. LocalStorage'da depolandığını görebilmek için
 
-  const handlePerPage = (e) => { 
+  const handlePerPage = (e) => {
     const value = parseInt(e.target.value);
     setRowsPerPage(value);
     setCurrentPage(1);
+    // setCurrentPage(1)
   };
 
-  function dataToRender() { 
+  const dataToRender = () => {
     // Tabloya girecek veriler - rows
-    const lastIndex = currentPage * rowsPerPage;
+    const lastIndex = currentPage * rowsPerPage; 
     const firstIndex = lastIndex - rowsPerPage;
-    const currentRows = records.slice(firstIndex, lastIndex);
+    const currentRows = records.slice(firstIndex, lastIndex); 
     return currentRows;
-  }
+  };
 
   const handlePagination = (page) => {
     // Sayfalama
     setCurrentPage(page.selected + 1);
   };
 
-  const CustomPagination = () => { 
+  const CustomPagination = () => {
     // Sayfalama
     return (
       <ReactPaginate
         previousLabel={<ChevronLeft size={15} />}
-        nextLabel={<ChevronRight size={15} />} 
+        nextLabel={<ChevronRight size={15} />}
         breakLabel={"..."}
         breakClassName={"break-me"}
-        pageCount={Math.ceil(records.length / rowsPerPage)}
+        pageCount={Math.ceil(records.length / rowsPerPage - 1)}
         containerClassName={
           "vx-pagination separated-pagination pagination-end pagination-sm mb-0 mt-2"
         }
         activeClassName={"active"}
-        forcePage={currentPage !== 0 ? currentPage - 1 : currentPage} // Sayfa numarası
-        onPageChange={(page) => handlePagination(page)} // Sayfa değişimi
+        forcePage={currentPage !== 0 ? currentPage - 1 : currentPage}
+        onPageChange={(page) => handlePagination(page)}
         pageClassName={"page-item"}
         nextLinkClassName={"page-link"}
         nextClassName={"page-item next"}
@@ -248,6 +248,7 @@ const Grid = () => {
               "linear-gradient(180deg, #EFF2FF -30.56%, rgba(232, 236, 255, 0) 135.85%)",
             borderRadius: "6px",
             boxShadow: "none",
+            margin: "0,auto",
           }}
         >
           <Row className="mx-4 px-5 mt-5">
@@ -454,7 +455,7 @@ const Grid = () => {
 
           <div
             className="react-dataTable p-2 mx-5 px-5 pt-3"
-            style={{ overflowX: "auto", borderRadius: "8px" }}
+            style={{ maxWidth:"100%",  overflowX: "auto", borderRadius: "8px" }}
           >
             <DataTable
               className="react-dataTable grid-title"
