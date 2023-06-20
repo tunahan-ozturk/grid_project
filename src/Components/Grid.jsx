@@ -120,7 +120,7 @@ const Grid = () => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
-    window.addEventListener("resize", handleResize); 
+    window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -132,7 +132,8 @@ const Grid = () => {
     // Filtreleme ve arama kısmı
     const searchTerm = event.target.value.toLowerCase();
     const storedRecords = localStorage.getItem("records");
-    if (storedRecords) { // Local Storage'da kaydedilmiş veriler
+    if (storedRecords) {
+      // Local Storage'da kaydedilmiş veriler
       const parsedRecords = JSON.parse(storedRecords);
       const filteredRecords = parsedRecords.filter((row) => {
         return row.name.toLowerCase().includes(searchTerm);
@@ -185,9 +186,9 @@ const Grid = () => {
 
   const dataToRender = () => {
     // Tabloya girecek veriler - rows
-    const lastIndex = currentPage * rowsPerPage; 
+    const lastIndex = currentPage * rowsPerPage;
     const firstIndex = lastIndex - rowsPerPage;
-    const currentRows = records.slice(firstIndex, lastIndex); 
+    const currentRows = records.slice(firstIndex, lastIndex);
     return currentRows;
   };
 
@@ -224,6 +225,7 @@ const Grid = () => {
   const [loading, setLoading] = useState(true); // Loading kısmı
   const [currentPage, setCurrentPage] = useState(1); // Sayfa numarası
   const [rowsPerPage, setRowsPerPage] = useState(4); // Sayfadaki başlangıçtaki satır sayısı
+
   const handlePageChange = (page) => {
     // Sayfa değişimi
     setCurrentPage(page);
@@ -234,6 +236,11 @@ const Grid = () => {
     (currentPage - 1) * rowsPerPage,
     currentPage * rowsPerPage
   );
+
+  const handleRowsPerPageChange = (newRowsPerPage) => {
+    setRowsPerPage(newRowsPerPage); // Sayfadaki satır sayısının değişimi
+    setCurrentPage(1); // Sayfa numarasının değişimi
+  };
 
   return (
     <>
@@ -455,7 +462,7 @@ const Grid = () => {
 
           <div
             className="react-dataTable p-2 mx-5 px-5 pt-3"
-            style={{ maxWidth:"100%",  overflowX: "auto", borderRadius: "8px" }}
+            style={{ maxWidth: "100%", overflowX: "auto", borderRadius: "8px" }}
           >
             <DataTable
               className="react-dataTable grid-title"
@@ -481,9 +488,11 @@ const Grid = () => {
               data={dataToRender()}
               progressPending={loading}
               paginationPerPage={rowsPerPage}
-              onChangePerPage={rowsPerPage}
-              paginationRowsPerPageOptions={[5, 10, 25, 50]}
-              paginationTotalRows={data.length}
+              //onChangePerPage={rowsPerPage}
+              paginationRowsPerPageOptions={[5, 10, 25, 50]} // Sayfa başına veri sayısı
+              paginationTotalRows={records.length}
+              onChangePage={handlePageChange}
+              onChangeRowsPerPage={handleRowsPerPageChange}
               // Toplam veri sayısı
               fixedHeader // Başlığın sabit kalması için.
               // selectableRows  // Seçme özelliği istersek aktifleştirebiliriz.
