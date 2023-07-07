@@ -1,7 +1,7 @@
 # grid_project
  Grid project with React(Vite)
 
-. Projeyi Çalıştırma :
+  -Projeyi Çalıştırma :
 ⦁	npm create vite@latest
 ⦁	cd grid_project
 ⦁	npm install
