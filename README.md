@@ -2,7 +2,6 @@
  Grid project with React(Vite)
 
 . Projeyi Çalıştırma :
-	Proje Kurulum Aşaması:
 ⦁	npm create vite@latest
 ⦁	cd grid_project
 ⦁	npm install
